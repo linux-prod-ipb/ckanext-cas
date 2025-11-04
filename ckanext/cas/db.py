@@ -38,7 +38,7 @@ def setup():
 
         from ckan import model
         if not cas_table.exists(bind=model.meta.engine):
-            cas_table.create()
+            cas_table.create(bind=model.meta.engine)
 
     else:
         log.debug('CAS table(s) already exist')
@@ -48,7 +48,7 @@ def setup():
         try:
             inspector.get_indexes("ckanext_cas_login")
         except NoSuchTableError:
-            cas_table.create()
+            cas_table.create(bind=engine)
 
         index_names = [index['name'] for index in inspector.get_indexes("ckanext_cas_login")]
         if not "ckanext_cas_login_ticket_id_idx" in index_names:
