@@ -32,9 +32,9 @@ import logging
 import re
 import urllib
 import ckan.lib.base as base
-import ckan.lib.helpers as h
 import ckan.plugins as p
 import ckan.plugins.toolkit as t
+from ckan.plugins.toolkit import url_for, redirect_to
 from ckanext.cas.db import setup as db_setup
 from ckanext.cas.controller import CTRL, CASController
 from ckanext.cas.db import delete_user_entry, is_ticket_valid
@@ -143,9 +143,9 @@ class CASClientPlugin(p.SingletonPlugin):
         remote_user = environ.get('REMOTE_USER', None)
         if remote_user and not is_ticket_valid(remote_user):
             log.debug('User logged out of CAS Server')
-            url = h.url_for(controller='user', action='logged_out_page',
+            url = url_for(controller='user', action='logged_out_page',
                             __ckan_no_root=True)
-            h.redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
+            redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
                                   'logout_handler_path') + '?came_from=' + url)
         elif not remote_user and not environ.get('REMOTE_USER') \
                 and not re.match(r'.*/api(/\d+)?/action/.*', environ['PATH_INFO']) \
@@ -179,7 +179,7 @@ class CASClientPlugin(p.SingletonPlugin):
             cas_logout_url = self.CAS_LOGOUT_URL + '?service=' + self.CAS_APP_URL + '/cas/logout'
             redirect(cas_logout_url)
         # TODO: Refactor into helper
-        url = h.url_for(controller='user', action='logged_out_page',
-                        __ckan_no_root=True)
-        h.redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
-                              'logout_handler_path') + '?came_from=' + url)
+        url = url_for(controller='user', action='logged_out_page',
+                       __ckan_no_root=True)
+        redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
+                             'logout_handler_path') + '?came_from=' + url)
