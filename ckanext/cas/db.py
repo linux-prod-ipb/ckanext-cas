@@ -112,7 +112,11 @@ def delete_entry(ticket_id):
 
 
 def delete_user_entry(user):
-    cas_table.delete(CasUser.user == user).execute()
+    from ckan import model
+    engine = model.meta.engine
+    conn = engine.connect()
+    conn.execute(cas_table.delete().where(CasUser.user == user))
+    conn.close()
 
 
 def is_ticket_valid(user):
