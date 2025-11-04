@@ -179,7 +179,5 @@ class CASClientPlugin(p.SingletonPlugin):
             cas_logout_url = self.CAS_LOGOUT_URL + '?service=' + self.CAS_APP_URL + '/cas/logout'
             redirect(cas_logout_url)
         # TODO: Refactor into helper
-        url = url_for(controller='user', action='logged_out_page',
-                       __ckan_no_root=True)
-        redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
-                             'logout_handler_path') + '?came_from=' + url)
+        url = url_for(controller='user', action='logged_out_page', __ckan_no_root=True)
+        redirect_to(url)
