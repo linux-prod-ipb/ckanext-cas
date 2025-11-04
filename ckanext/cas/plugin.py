@@ -38,6 +38,7 @@ import ckan.plugins.toolkit as t
 from ckanext.cas.db import setup as db_setup
 from ckanext.cas.controller import CTRL, CASController
 from ckanext.cas.db import delete_user_entry, is_ticket_valid
+from urllib.parse import quote
 
 render = base.render
 abort = base.abort
@@ -165,7 +166,7 @@ class CASClientPlugin(p.SingletonPlugin):
         elif self.CAS_VERSION == 3:
             url = self.CAS_LOGIN_URL + params + self.CAS_APP_URL + '/cas/saml_callback'
         if next:
-            url = url + '?next=' + urllib.quote(t.request.environ['CKAN_CURRENT_URL'])
+            url = url + '?next=' + quote(t.request.environ['CKAN_CURRENT_URL'])
         return url
 
     def login(self):
