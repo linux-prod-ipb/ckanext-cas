@@ -49,7 +49,6 @@ log = logging.getLogger(__name__)
 class CASClientPlugin(p.SingletonPlugin):
     p.implements(p.IConfigurer)
     p.implements(p.IAuthenticator, inherit=True)
-    p.implements(p.IRoutes, inherit=True)
     p.implements(p.IConfigurable)
 
     USER_ATTR_MAP = {}
