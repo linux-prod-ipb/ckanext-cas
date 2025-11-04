@@ -94,7 +94,7 @@ def insert_entry(ticket_id, user=None):
         cas_user = CasUser(ticket_id, user)
         cas_user.save()
         return True
-    except sqlalchemy.exc.IntegrityError, exc:
+    except sqlalchemy.exc.IntegrityError as exc:
         reason = exc.message
         log.error(reason)
         if reason.endswith('is not unique'):

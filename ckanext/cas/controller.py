@@ -41,7 +41,6 @@ import ckan.model as m
 import ckan.plugins as p
 import ckan.plugins.toolkit as t
 import requests as rq
-from ckan.controllers.user import UserController, set_repoze_user
 from ckanext.cas.db import delete_entry, delete_user_entry, insert_entry
 from lxml import etree, objectify
 
@@ -57,7 +56,7 @@ XML_NAMESPACES = {'samlp': CAS_NAMESPACE}
 DATETIME_FORMAT = '%Y-%m-%dT%H:%M:%S.%fZ'
 
 
-class CASController(UserController):
+class CASController(object):
     def cas_logout(self):
         log.debug('Invoked "cas_logout" method.')
 
@@ -192,7 +191,6 @@ class CASController(UserController):
                 except Exception as e:
                     log.error(e)
 
-            set_repoze_user(user_obj['name'])
             delete_user_entry(user_obj['name'])
             return user_obj['name']
         else:
@@ -207,7 +205,6 @@ class CASController(UserController):
                     log.error(e)
                     abort(500, str(e))
 
-            set_repoze_user(username)
             delete_user_entry(username)
             return username
 

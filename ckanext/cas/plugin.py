@@ -78,10 +78,10 @@ class CASClientPlugin(p.SingletonPlugin):
             self.USER_ATTR_MAP.update({key: val})
 
         if not any(self.USER_ATTR_MAP):
-            raise RuntimeError, 'User attribute mapping is required for plugin: {0}'.format(self.name)
+            raise RuntimeError('User attribute mapping is required for plugin: {0}, {1}'.format(self.name, self.USER_ATTR_MAP))
 
         if 'email' not in self.USER_ATTR_MAP.keys():
-            raise RuntimeError, '"email" attribute mapping is required for plugin: {0}'.format(self.name)
+            raise RuntimeError('"email" attribute mapping is required for plugin: {0}'.format(self.name))
 
         service_validation_url = config.get('ckanext.cas.service_validation_url', None)
         saml_validation_url = config.get('ckanext.cas.saml_validation_url', None)
@@ -89,16 +89,16 @@ class CASClientPlugin(p.SingletonPlugin):
         if (service_validation_url and saml_validation_url) or \
                 (not service_validation_url and not saml_validation_url):
             msg = 'Configure either "ckanext.cas.service_validation_url" or "ckanext.cas.saml_validation_url" but not both.'
-            raise RuntimeError, msg
+            raise RuntimeError(msg)
 
         if not config.get('ckanext.cas.login_url', None):
-            raise RuntimeError, '"ckanext.cas.login_url" is required for plugin: {0}'.format(self.name)
+            raise RuntimeError('"ckanext.cas.login_url" is required for plugin: {0}'.format(self.name))
 
         if not config.get('ckanext.cas.logout_url', None):
-            raise RuntimeError, '"ckanext.cas.logout_url" is required for plugin: {0}'.format(self.name)
+            raise RuntimeError('"ckanext.cas.logout_url" is required for plugin: {0}'.format(self.name))
 
         if not config.get('ckanext.cas.application_url', None):
-            raise RuntimeError, '"ckanext.cas.application_url" is required for plugin: {0}'.format(self.name)
+            raise RuntimeError('"ckanext.cas.application_url" is required for plugin: {0}'.format(self.name))
 
         if service_validation_url:
             self.SERVICE_VALIDATION_URL = config.get('ckanext.cas.service_validation_url')
