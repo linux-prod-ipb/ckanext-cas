@@ -21,7 +21,7 @@ import sqlalchemy.exc
 import ckan.plugins.toolkit as t
 
 from ckan.model import domain_object
-from ckan.model.meta import Session, metadata, mapper, engine
+from ckan.model.meta import Session, metadata, mapper
 from sqlalchemy.engine.reflection import Inspector
 from sqlalchemy.exc import NoSuchTableError
 from sqlalchemy import types, Column, Table, ForeignKey, func, CheckConstraint, UniqueConstraint, Index
@@ -36,11 +36,13 @@ def setup():
         define_cas_tables()
         log.debug('CAS table(s) defined in memory')
 
-        if not cas_table.exists(engine):
+        from ckan import model
+        if not cas_table.exists(bind=model.meta.engine):
             cas_table.create()
 
     else:
         log.debug('CAS table(s) already exist')
+        from ckan.model.meta import engine
         inspector = Inspector.from_engine(engine)
 
         try:
