@@ -146,7 +146,7 @@ class CASClientPlugin(p.SingletonPlugin):
                             __ckan_no_root=True)
             h.redirect_to(getattr(t.request.environ['repoze.who.plugins']['friendlyform'],
                                   'logout_handler_path') + '?came_from=' + url)
-        elif not remote_user and not isinstance(environ['pylons.controller'], CASController) \
+        elif not remote_user and not environ.get('REMOTE_USER') \
                 and not re.match(r'.*/api(/\d+)?/action/.*', environ['PATH_INFO']) \
                 and not re.match(r'.*/dataset/.+/resource/.+/download/.+', environ['PATH_INFO']):
             login_checkup_cookie = t.request.cookies.get(self.LOGIN_CHECKUP_COOKIE, None)
